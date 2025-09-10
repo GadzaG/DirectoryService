@@ -25,6 +25,7 @@ public class Department : EntityBase
         Identifier identifier,
         Path path,
         short depth,
+        List<DepartmentPosition> departmentPositions,
         Department? parent)
         : base(id, createdAt)
     {
@@ -33,9 +34,10 @@ public class Department : EntityBase
         Path = path;
         Depth = depth;
         Parent = parent;
+        _departmentPositions = departmentPositions;
     }
 
-    public Department? Parent { get; set; }
+    public Department? Parent { get; private set; }
 
     public IReadOnlyList<Department> Children => _children;
 
@@ -52,11 +54,12 @@ public class Department : EntityBase
     public short Depth { get; private set; }
 
     public static Result<Department, Error> Create(
+        Guid id,
         DepartmentName name,
         Identifier identifier,
+        List<DepartmentPosition> departmentPositions,
         Department? parent = null)
     {
-        var id = Guid.NewGuid();
         var createdAt = DateTime.Now;
 
         var path = parent is null
@@ -68,6 +71,11 @@ public class Department : EntityBase
 
         short depth = (short)(parent?.Depth + 1 ?? 0);
 
-        return new Department(id, createdAt, name, identifier, path.Value, depth, parent);
+        if (departmentPositions.Any(departmentPosition => departmentPosition.DepartmentId != id))
+        {
+            return Errors.General.ValueIsInvalid(nameof(departmentPositions));
+        }
+
+        return new Department(id, createdAt, name, identifier, path.Value, depth, departmentPositions, parent);
     }
 }
