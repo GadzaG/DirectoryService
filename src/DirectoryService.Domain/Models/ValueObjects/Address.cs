@@ -15,15 +15,15 @@ public record Address
 
     public string House { get; private set; }
 
-    public string PostalCode { get; private set; }
+    public string? PostalCode { get; private set; }
 
-    private Address(string country, string city, string region, string street, string houseNumber, string postalCode)
+    private Address(string country, string city, string region, string street, string house, string postalCode)
     {
         Country = country;
         City = city;
         Region = region;
         Street = street;
-        House = houseNumber;
+        House = house;
         PostalCode = postalCode;
     }
 
@@ -33,7 +33,7 @@ public record Address
         string region,
         string street,
         string houseNumber,
-        string postalCode)
+        string? postalCode)
     {
         if (string.IsNullOrEmpty(country))
             return Errors.General.ValueIsRequired(nameof(Country));
