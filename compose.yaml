@@ -1,6 +1,45 @@
 ﻿services:
-  directoryservice.presentation:
-    image: directoryservice.presentation
-    build:
-      context: .
-      dockerfile: src/DirectoryService.Presentation/Dockerfile
+  #  directoryservice.presentation:
+  #    image: directoryservice.presentation
+  #    build:
+  #      context: .
+  #      dockerfile: src/DirectoryService.Presentation/Dockerfile
+  database:
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_DB: directory_service_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "4001:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  
+  logs:
+    image: datalust/seq:latest
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_NOAUTHENTICATION=true
+    ports:
+      - "4004:5341"
+      - "4005:80"
+    volumes:
+      - seq-data:/data
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@mail.ru
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "4006:80"
+    volumes:
+      - pgadmin-data:/data
+
+volumes:
+  postgres-data:
+  pgadmin-data:
+  seq-data:
