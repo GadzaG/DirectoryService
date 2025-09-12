@@ -1,4 +1,6 @@
 ﻿using DirectoryService.Application.Abstractions.Database;
+using DirectoryService.Application.Abstractions.Database.Repositories;
+using DirectoryService.Infrastructure.Postgres.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +13,9 @@ public static class Inject
         services.Configure<PostgresOptions>(configuration.GetSection(PostgresOptions.POSTGRES));
         services.AddDbContext<DirectoryServiceDbContext>();
         services.AddDbContext<IReadDbContext, DirectoryServiceDbContext>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped<ILocationsRepository, LocationsRepository>();
         return services;
     }
 }

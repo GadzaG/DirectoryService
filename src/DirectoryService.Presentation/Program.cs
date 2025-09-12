@@ -1,13 +1,10 @@
+using DirectoryService.Application;
 using DirectoryService.Infrastructure.Postgres;
+using DirectoryService.Presentation.Extensions;
 using Serilog;
 using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
-
-foreach (var tz in TimeZoneInfo.GetSystemTimeZones())
-{
-    Console.WriteLine($"{tz.Id} |\t {tz.DisplayName} |\t {tz.StandardName}");
-}
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -23,9 +20,11 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddPostgres(builder.Configuration);
+builder.Services.AddApplication();
 
 var app = builder.Build();
 
+app.UseExceptionMiddleware();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -39,5 +38,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+await app.ApplyMigrations();
 
 app.Run();

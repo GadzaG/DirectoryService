@@ -33,4 +33,12 @@ public static class Errors
             return Error.Validation("record.already.deleted", $"Record with id {id} is already deleted");
         }
     }
+
+    public static class Infrastructure
+    {
+        public static Error UnknownException(string message)
+        {
+            return Error.Failure("infrastructure.unknown", message);
+        }
+    }
 }
