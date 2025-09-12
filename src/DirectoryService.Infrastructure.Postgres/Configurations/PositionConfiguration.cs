@@ -12,7 +12,7 @@ public class PositionConfiguration : IEntityTypeConfiguration<Position>
         builder.ToTable("position");
 
         builder.HasKey(position => position.Id).HasName("pk_position");
-        
+
         builder.Property(position => position.Id).HasColumnName("id");
 
         builder.OwnsOne(position => position.Name, nameBuilder =>

@@ -6,8 +6,8 @@ using Microsoft.Extensions.Options;
 
 namespace DirectoryService.Infrastructure.Postgres;
 
-/*
-        этот контекст будет использоваться позже, пока использую тот что ниже для миграций 
+
+ 
 public class DirectoryServiceDbContext(IOptions<PostgresOptions> postgresOptions) : DbContext, IReadDbContext
 {
     public DbSet<Department> Departments => Set<Department>();
@@ -40,9 +40,9 @@ public class DirectoryServiceDbContext(IOptions<PostgresOptions> postgresOptions
 
     private static ILoggerFactory CreateLoggerFactory() =>
         LoggerFactory.Create(builder => builder.AddConsole());
-}*/
+}
 
-public class DirectoryServiceDbContext() : DbContext, IReadDbContext
+/*public class DirectoryServiceDbContext() : DbContext, IReadDbContext
 {
     public DbSet<Department> Departments => Set<Department>();
 
@@ -74,4 +74,4 @@ public class DirectoryServiceDbContext() : DbContext, IReadDbContext
 
     private static ILoggerFactory CreateLoggerFactory() =>
         LoggerFactory.Create(builder => builder.AddConsole());
-}
+}*/
