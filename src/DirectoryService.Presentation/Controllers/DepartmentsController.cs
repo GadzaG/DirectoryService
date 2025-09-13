@@ -3,7 +3,7 @@
 namespace DirectoryService.Presentation.Controllers;
 
 [ApiController]
-[Route("api/departments")] // прописал вручную, чтобы путь был с маленькой буквы
+[Route("api/[controller]")] // прописал вручную, чтобы путь был с маленькой буквы
 public class DepartmentsController : ControllerBase
 {
     [HttpGet]

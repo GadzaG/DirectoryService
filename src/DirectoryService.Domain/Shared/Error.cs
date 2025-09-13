@@ -11,8 +11,8 @@ public record Error
     public string InvalidField { get; }
 
     private Error(
-        string code, 
-        string message, 
+        string code,
+        string message,
         ErrorType errorType,
         string? invalidField = default)
     {
@@ -23,13 +23,16 @@ public record Error
     }
 
     public static Error Validation(string code, string message, string? validField = default)
-        => new(code, message, ErrorType.Validation, validField);
+        => new(code, message, ErrorType.VALIDATION, validField);
+
     public static Error NotFound(string code, string message)
-        => new(code, message, ErrorType.NotFound);
+        => new(code, message, ErrorType.NOT_FOUND);
+
     public static Error Failure(string code, string message)
-        => new(code, message, ErrorType.Failure);
+        => new(code, message, ErrorType.FAILURE);
+
     public static Error Conflict(string code, string message)
-        => new(code, message, ErrorType.Conflict);
+        => new(code, message, ErrorType.CONFLICT);
 
     public string Serialize() => string.Join(SEPARATOR, Code, Message, Type);
 
@@ -49,4 +52,10 @@ public record Error
     public ErrorList ToErrorList() => new([this]);
 }
 
-public enum ErrorType { Validation, NotFound, Failure, Conflict }
+public enum ErrorType
+{
+    VALIDATION,
+    NOT_FOUND,
+    FAILURE,
+    CONFLICT,
+}
